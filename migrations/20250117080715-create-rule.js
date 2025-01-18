@@ -17,7 +17,7 @@ module.exports = {
         allowNull: false,
       },
       actions: {
-        type: Sequelize.JSON,
+        type: Sequelize.ARRAY(Sequelize.STRING), // Change from JSON to ARRAY of STRING
         allowNull: false,
       },
       isActive: {
