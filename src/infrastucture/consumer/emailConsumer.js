@@ -1,22 +1,22 @@
-const RabbitMQ = require('../../infrastucture/message/rabbitmq');
-
+const RabbitMQ = require('../message/rabbitmq');
+const { generateEmailTemplate } = require('../../utils/email');
 const nodemailer = require('nodemailer');
 
 async function sendEmail(to, subject, htmlContent) {
   // Create a transporter
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'mail.javascript.info',
-    port: process.env.SMTP_PORT || 465,
+    service: 'gmail',
+    port: process.env.SMTP_PORT,
     secure: true,
     auth: {
-      user: process.env.SMTP_USER || 'test@openjavascript.info',
-      pass: process.env.SMTP_PASS || 'NodeMailer123!',
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
     },
   });
 
   // Email options
   const mailOptions = {
-    from: process.env.EMAIL_FROM || 'CRM <test@openjavascript.info>',
+    from: process.env.EMAIL_FROM,
     to,
     subject,
     html: htmlContent,
@@ -31,16 +31,9 @@ async function startEmailConsumer() {
     console.log('[EmailConsumer] Processing email for:', message.email);
 
     try {
-      // Example HTML content
-      const htmlContent = `
-        <h1>Hello, ${message.name}!</h1>
-        <p>We noticed you haven't been active in 90 days.</p>
-        <p>Come back to explore more!</p>
-        
-      `;
-
+      const htmlContent = generateEmailTemplate(message);
       // Send the email
-      await sendEmail(message.email, 'We Miss You!', htmlContent);
+      await sendEmail(message.email, 'Special Message for You!', htmlContent);
 
       console.log(
         `[EmailConsumer] Email sent to ${message.email} (${message.name})`

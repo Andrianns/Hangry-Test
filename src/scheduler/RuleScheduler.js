@@ -1,10 +1,11 @@
+require('dotenv').config(); // Load environment variables
 const nodeSchedule = require('node-schedule');
 const moment = require('moment');
 const { User } = require('../models');
 const RabbitMQ = require('../infrastucture/message/rabbitmq');
 const { timeToCron } = require('../utils/time');
 const { Op, Sequelize } = require('sequelize');
-const scheduleTime = '11:16';
+const scheduleTime = process.env.SCHEDULE_TIME;
 const { fetchRules, checkCondition } = require('../utils/condition'); // Import the functions
 
 class RuleScheduler {

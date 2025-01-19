@@ -5,18 +5,18 @@ if (process.env.NODE_ENV !== 'production') {
 const cors = require('cors');
 const express = require('express');
 // const errorHandler = require('../middleware/errorHandle');
-const router = require('./routes');
+const router = require('./src/routes');
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-const errorHandler = require('./middleware/errorHandler');
+const errorHandler = require('./src/middleware/errorHandler');
 
-const RuleScheduler = require('./scheduler/RuleScheduler');
-const EmailConsumer = require('./infrastucture/consumer/emailConsumer');
-const NotifConsumer = require('./infrastucture/consumer/notifConsumer');
-const RabbitMQ = require('./infrastucture/message/rabbitmq');
+const RuleScheduler = require('./src/scheduler/RuleScheduler');
+const EmailConsumer = require('./src/infrastucture/consumer/emailConsumer');
+const NotifConsumer = require('./src/infrastucture/consumer/notifConsumer');
+const RabbitMQ = require('./src/infrastucture/message/rabbitmq');
 
 app.use('/', router);
 (async function initializeApp() {

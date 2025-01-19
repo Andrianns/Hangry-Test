@@ -1,4 +1,4 @@
-const RabbitMQ = require('../../infrastucture/message/rabbitmq');
+const RabbitMQ = require('../message/rabbitmq');
 const { User } = require('../../models');
 
 async function sendNotification(to, messageContent) {
@@ -14,7 +14,13 @@ async function startNotifConsumer() {
     console.log('[NotifConsumer] Received message:', message);
 
     try {
-      const notificationContent = `Hello ${message.name}, we miss you! Check out what's new on our platform.`;
+      let notificationContent;
+
+      if (message.type === 'notif') {
+        notificationContent = `Hello ${message.name}, we miss you! Check out what's new on our platform.`;
+      } else if (message.type === 'birthday_notif') {
+        notificationContent = `Happy Birthday ${message.name}! We wish you a joyful and wonderful day.`;
+      }
 
       await sendNotification(message.name, notificationContent);
 

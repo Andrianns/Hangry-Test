@@ -4,7 +4,7 @@ module.exports = {
   development: {
     username: 'postgres',
     password: 'postgres',
-    database: 'crm-rules',
+    database: 'hangry-server',
     host: '127.0.0.1',
     dialect: 'postgres',
   },

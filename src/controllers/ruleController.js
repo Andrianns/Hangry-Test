@@ -40,13 +40,13 @@ class RuleController {
   }
 
   static async sendEmail(req, res) {
-    const { id, email, name } = req.body;
+    const { id, email, name, type } = req.body;
     try {
       await RabbitMQ.publish('email_queue', {
         id,
         email,
         name,
-        type: 'email',
+        type,
       });
       res.status(200).json({ message: 'Email sent successfully' });
     } catch (err) {
@@ -55,10 +55,10 @@ class RuleController {
   }
 
   static async sendNotification(req, res) {
-    const { userId, name } = req.body;
+    const { userId, name, type } = req.body;
 
     try {
-      await RabbitMQ.publish('notif_queue', { userId, name, type: 'notif' });
+      await RabbitMQ.publish('notif_queue', { userId, name, type });
       res.status(200).json({ message: 'Notification sent successfully' });
     } catch (err) {
       res.status(500).json({ error: err.message });
