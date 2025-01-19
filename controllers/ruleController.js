@@ -41,7 +41,6 @@ class RuleController {
 
   static async sendEmail(req, res) {
     const { id, email, name } = req.body;
-
     try {
       await RabbitMQ.publish('email_queue', {
         id,

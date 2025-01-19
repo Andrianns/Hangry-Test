@@ -25,22 +25,6 @@ function errorHandler(error, req, res, next) {
     error.name === 'JsonWebTokenError'
   ) {
     res.status(401).json({ message: 'Invalid Token' });
-  } else if (error.name === 'teamNotFound') {
-    res.status(404).json({
-      message: 'Team not found',
-    });
-  } else if (error.name === 'integer(required)') {
-    res.status(404).json({
-      message: 'integer required',
-    });
-  } else if (error.name === 'unique') {
-    res.status(400).json({
-      message: 'You have chosen this team ',
-    });
-  } else if (error.name === 'Folder Not Found') {
-    res.status(404).json({
-      message: 'Folder Not Found',
-    });
   } else {
     res.status(500).json({
       message: 'Internal server error',
